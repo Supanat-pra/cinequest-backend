@@ -12,5 +12,6 @@ function validate(name: string): string {
 
 export const env = {
   PORT: Number(process.env.PORT || 5555),
+  DATABASE_URL: validate("DATABASE_URL"),
   TMDB_API_KEY: validate("TMDB_API_KEY"),
 };
