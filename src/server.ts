@@ -5,7 +5,7 @@ app.get("/", (req, res) => {
   res.send("CineQuest");
 });
 
-const startServer = async (): Promise<any> => {
+const startServer = async (): Promise<void> => {
   try {
     app.listen(env.PORT, () => {
       console.log(`✅Server is running on port: ${env.PORT}`);
