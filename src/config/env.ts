@@ -10,6 +10,9 @@ function validate(name: string): string {
   return value;
 }
 
+export const isProd = process.env.NODE_ENV === "production";
+export const isDev = process.env.NODE_ENV === "development";
+
 export const env = {
   PORT: Number(process.env.PORT || 5555),
   DATABASE_URL: validate("DATABASE_URL"),
