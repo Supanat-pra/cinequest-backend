@@ -18,4 +18,5 @@ export const env = {
   DATABASE_URL: validate("DATABASE_URL"),
   TMDB_API_KEY: validate("TMDB_API_KEY"),
   TMDB_API_V4_TOKEN: validate("TMDB_API_V4_TOKEN"),
+  JWT_SECRET: validate("JWT_SECRET"),
 };
