@@ -1,4 +1,4 @@
-# 🎬 CineQuest - Frontend
+# 🎬 CineQuest - Backend
 
 CineQuest is a personal movies and TV shows tracking application that allows users to record what they have watched, rate titles, and write personal reviews — all in one place. It is designed as a **portfolio-quality backend-focused project**, emphasizing clean architecture, API design, authentication, and database modeling.
 
@@ -40,17 +40,16 @@ Tooling:
 
 ```bash
 src/
-├── config/          # Environment & external services
-├── modules/         # Feature-based modules
-│   ├── auth/
-│   ├── movies/
-│   ├── reviews/
-│   └── users/
+├── config/
+├── db/              # Database layer (repositories, migrations, schema)
 ├── middlewares/     # Auth & error handling
-├── routes/          # API routes
-├── services/        # Business logic & TMDb calls
+├── modules/         # Feature-based modules
+│   ├── auth/        # Routes, Controller and services
+│   ├── watchlist/   # Routes, Controller and services
+├── services/        # External services (TMDb API client)
+├── types/           # Global/shared TypeScript types
 ├── utils/           # Shared helpers
-├── app.ts           # Express app setup
+├── app.ts           # Express app setup & configuration
 └── server.ts        # Server entry point
 ```
 
@@ -93,7 +92,7 @@ This avoids duplicating large external datasets and keeps the database lean.
 ### Installation
 
 ```bash
-git clone https://github.com/your-username/cinequest-backend.git
+git clone https://github.com/Supanat-pra/cinequest-backend.git
 cd cinequest-backend
 npm install
 ```
@@ -149,5 +148,5 @@ npm run dev
 
 ## 👤 Author
 
-**Supanat Prakobkham**  
-Backend Engineering Portfolio Project
+**Supanat Prakobkham**
+Web-Application Portfolio Project
