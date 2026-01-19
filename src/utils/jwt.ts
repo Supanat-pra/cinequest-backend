@@ -5,7 +5,7 @@ export interface AccessTokenPayload extends JwtPayload {
   userId: string;
 }
 
-export const signToken = (user_id: string): string => {
+export const signToken = (user_id: number): string => {
   const accessToken = jwt.sign({ userId: user_id }, env.JWT_SECRET, {
     expiresIn: "1h",
   });

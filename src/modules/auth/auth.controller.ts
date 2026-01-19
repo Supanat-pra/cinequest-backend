@@ -4,18 +4,49 @@ import { AuthService } from "./auth.service.js";
 
 export const AuthController = {
   async register(req: Request, res: Response) {
-    const { email, username, password, first_name, last_name } = req.body;
+    const { first_name, last_name, email, username, password } = req.body;
     try {
       const result = await AuthService.register(
+        first_name,
+        last_name,
         email,
         username,
         password,
-        first_name,
-        last_name
       );
       return success(res, result, "User Created", 201);
     } catch (err) {
-      error(res, "Cannot register", 500);
+      if (err instanceof Error) {
+        return error(res, err.message, 400);
+      }
+      return error(res, "Cannot register", 500);
     }
+  },
+
+  async login(req: Request, res: Response) {
+    const { username, password } = req.body;
+    try {
+      const result = await AuthService.login(username, password);
+      res.cookie("accessToken", result.accessToken, {
+        maxAge: 60 * 60 * 1000, // 1 hour
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "strict",
+      });
+      return success(res, result.user, "User login");
+    } catch (err) {
+      if (err instanceof Error) {
+        return error(res, err.message, 401);
+      }
+      return error(res, "Cannot login", 500);
+    }
+  },
+
+  async logout(req: Request, res: Response) {
+    res.clearCookie("accessToken", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+    });
+    return success(res, "User logout");
   },
 };
