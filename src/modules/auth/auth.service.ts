@@ -2,6 +2,7 @@ import { UserRepository } from "../../db/repositories/user.repositories.js";
 import { hashPassword, comparePassword } from "../../utils/password.js";
 import { signToken } from "../../utils/jwt.js";
 import type { AuthUser, AuthResponse } from "./auth.type.js";
+import { error } from "../../utils/apiResponse.js";
 
 export const AuthService = {
   async register(
@@ -11,11 +12,6 @@ export const AuthService = {
     username: string,
     password: string,
   ): Promise<AuthUser> {
-    const emailExists = await UserRepository.existsByEmail(email);
-    const usernameExists = await UserRepository.existsByUsername(username);
-    if (emailExists || usernameExists) {
-      throw new Error("Email or Username already taken");
-    }
     const password_hash = await hashPassword(password);
     const user = await UserRepository.create(
       first_name,
@@ -24,6 +20,9 @@ export const AuthService = {
       username,
       password_hash,
     );
+    if (!user) {
+      throw new Error("User cannot register");
+    }
     return {
       user_id: user.user_id,
       first_name: user.first_name,
@@ -59,5 +58,13 @@ export const AuthService = {
       user,
       accessToken,
     };
+  },
+
+  async profile(userId: number): Promise<AuthUser> {
+    const user = await UserRepository.findById(userId);
+    if (!user) {
+      throw new Error("User not found");
+    }
+    return user;
   },
 };

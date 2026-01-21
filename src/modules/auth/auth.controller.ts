@@ -44,9 +44,22 @@ export const AuthController = {
   async logout(req: Request, res: Response) {
     res.clearCookie("accessToken", {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
+      secure: process.env.NODE_ENV === "production", // HTTPS only(production)
       sameSite: "strict",
     });
     return success(res, "User logout");
+  },
+
+  async profile(req: Request, res: Response) {
+    const { userId } = req.user;
+    try {
+      const result = await AuthService.profile(userId);
+      return success(res, result, "User fetched");
+    } catch (err) {
+      if (err instanceof Error) {
+        return error(res, err.message, 404);
+      }
+      return error(res, "User not found", 404);
+    }
   },
 };

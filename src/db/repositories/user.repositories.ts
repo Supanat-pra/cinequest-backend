@@ -20,36 +20,29 @@ export const UserRepository = {
     email: string,
     username: string,
     password_hash: string,
-  ): Promise<User> {
+  ): Promise<User | null> {
     const query =
-      "INSERT INTO users(first_name, last_name, email, username, password) VALUES ($1,$2,$3,$4,$5) RETURNING user_id, first_name, last_name, email, username, created_at";
+      "INSERT INTO users(first_name, last_name, email, username, password_hash) VALUES ($1,$2,$3,$4,$5) RETURNING user_id, first_name, last_name, email, username, created_at";
     const values = [first_name, last_name, email, username, password_hash];
     const result = await pool.query<User>(query, values);
-    if (!result.rows[0]) {
-      throw new Error("Failed to create user");
-    }
-    return result.rows[0];
+    return result.rows[0] ?? null;
   },
 
-  async findByUsername(username: string): Promise<UserRow> {
-    const query = "SELECT * FROM users WHERE username=$1";
+  async findByUsername(username: string): Promise<UserRow | null> {
+    const query =
+      "SELECT user_id, first_name, last_name, email, username, password_hash, created_at FROM users WHERE username=$1";
     const result = await pool.query<UserRow>(query, [username]);
-    if (!result.rows[0]) {
-      throw new Error("Invalid username");
-    }
-    return result.rows[0];
+    return result.rows[0] ?? null;
   },
 
-  async findById(user_id: number): Promise<User> {
+  async findById(user_id: number): Promise<User | null> {
     const query =
       "SELECT user_id, first_name, last_name, email, username, created_at FROM users WHERE user_id=$1";
     const result = await pool.query<User>(query, [user_id]);
-    if (!result.rows[0]) {
-      throw new Error("UserNotFound");
-    }
-    return result.rows[0];
+    return result.rows[0] ?? null;
   },
 
+  // for forgot password feature, don't use this function for Check first, then act Let the system enforce correctness
   async existsByEmail(email: string): Promise<boolean> {
     const query = "SELECT 1 FROM users WHERE email = $1";
     const result = await pool.query(query, [email]);
