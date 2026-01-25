@@ -2,7 +2,7 @@ import jwt, { type JwtPayload } from "jsonwebtoken";
 import { env } from "../config/env.js";
 
 export interface AccessTokenPayload extends JwtPayload {
-  userId: string;
+  userId: number;
 }
 
 export const signToken = (user_id: number): string => {

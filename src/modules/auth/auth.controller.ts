@@ -51,6 +51,9 @@ export const AuthController = {
   },
 
   async profile(req: Request, res: Response) {
+    if (!req.user) {
+      return error(res, "Unauthorized", 401);
+    }
     const { userId } = req.user;
     try {
       const result = await AuthService.profile(userId);

@@ -117,16 +117,16 @@ export const TMDbservice = {
     return res.data;
   },
 
-  async getAllDetail(
-    id: number,
-    media_type: "movie" | "tv",
-  ): Promise<TMDbMovieDetailResult | TMDbTVDetailResult | null> {
-    if (media_type === "movie") {
-      const data = await this.getMovieById(id);
-      return data as TMDbMovieDetailResult;
-    } else {
-      const data = await this.getTVById(id);
-      return data as TMDbTVDetailResult;
-    }
-  },
+  // async getAllDetail(
+  //   id: number,
+  //   media_type: "movie" | "tv",
+  // ): Promise<TMDbMovieDetailResult | TMDbTVDetailResult | null> {
+  //   if (media_type === "movie") {
+  //     const data = await this.getMovieById(id);
+  //     return data as TMDbMovieDetailResult;
+  //   } else {
+  //     const data = await this.getTVById(id);
+  //     return data as TMDbTVDetailResult;
+  //   }
+  // },
 };
