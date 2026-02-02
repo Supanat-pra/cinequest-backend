@@ -3,7 +3,7 @@ import { AuthController } from "./auth.controller.js";
 import { requireAuth } from "../../middlewares/auth.middleware.js";
 
 const router = express.Router();
-
+// .../auth/... route
 router.post("/register", AuthController.register);
 router.post("/login", AuthController.login);
 router.post("/logout", AuthController.logout);

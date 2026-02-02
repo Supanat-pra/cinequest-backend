@@ -3,8 +3,8 @@ import { pool } from "../pool.js";
 export interface Watchlist {
   user_id: number;
   tmdb_id: number;
-  review: string;
-  rating: number;
+  review: string | null;
+  rating: number | null;
   created_at: Date;
 }
 
@@ -12,8 +12,8 @@ export const WatchlistRepository = {
   async create(
     userId: number,
     tmdb_id: number,
-    review: string,
-    rating: number,
+    review: string | null = null,
+    rating: number | null = null,
   ): Promise<Watchlist | null> {
     const query =
       "INSERT INTO watchlist (user_id, tmdb_id, review, rating) VALUES ($1, $2, $3, $4) RETURNING user_id, tmdb_id, review, rating, created_at";

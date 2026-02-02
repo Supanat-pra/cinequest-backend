@@ -7,6 +7,7 @@ import type {
 export interface MediaDetail {
   genres: Array<{ name: string }>; //{ name: string }[]
   id: number;
+  media_type: "movie" | "tv";
   overview: string;
   poster_path: string;
   release_date: string;
@@ -32,6 +33,7 @@ export const MediaService = {
       return {
         genres: movie.genres,
         id: movie.id,
+        media_type: "movie",
         overview: movie.overview,
         poster_path: movie.poster_path,
         release_date: movie.release_date,
@@ -53,6 +55,7 @@ export const MediaService = {
       return {
         genres: tv.genres,
         id: tv.id,
+        media_type: "tv",
         overview: tv.overview,
         poster_path: tv.poster_path,
         release_date: tv.first_air_date,

@@ -42,12 +42,16 @@ export const AuthController = {
   },
 
   async logout(req: Request, res: Response) {
-    res.clearCookie("accessToken", {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production", // HTTPS only(production)
-      sameSite: "strict",
-    });
-    return success(res, "User logout");
+    try {
+      res.clearCookie("accessToken", {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production", // HTTPS only(production)
+        sameSite: "strict",
+      });
+      return success(res, "User logout");
+    } catch {
+      return error(res, "Logout failed", 500);
+    }
   },
 
   async profile(req: Request, res: Response) {

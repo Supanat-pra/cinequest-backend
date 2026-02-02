@@ -3,10 +3,10 @@ import { requireAuth } from "../../middlewares/auth.middleware.js";
 import { WatchlistController } from "./watchlist.controller.js";
 
 const router = express.Router();
-
-router.post("/", requireAuth, WatchlistController.createWatchlist);
+// /watchlist route
+router.post("/:movieId", requireAuth, WatchlistController.createWatchlist);
 router.get("/", requireAuth, WatchlistController.getWatchlist);
-router.put("/:movie_id", requireAuth, WatchlistController.updateWatchlist);
-router.delete("/:movie_id", requireAuth, WatchlistController.deleteWatchlist);
+router.put("/:movieId", requireAuth, WatchlistController.updateWatchlist);
+router.delete("/:movieId", requireAuth, WatchlistController.deleteWatchlist);
 
 export const watchlistRouter = router;

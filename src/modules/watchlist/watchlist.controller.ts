@@ -8,13 +8,18 @@ export const WatchlistController = {
       return error(res, "Unauthorized", 401);
     }
     const { userId } = req.user;
-    const { movie_id, review, rating } = req.body;
+    const { movieId } = req.params;
+    const { review, rating } = req.body;
+    if (typeof movieId !== "string") {
+      return error(res, "Path params is not string", 400);
+    }
+    const movie_id = Number(movieId);
     try {
       const result = await WatchlistService.createWatchlist(
         userId,
         movie_id,
-        review,
-        rating,
+        review ?? null,
+        rating ?? null,
       );
       return success(res, result, "Watchlist created");
     } catch (err) {
@@ -46,9 +51,9 @@ export const WatchlistController = {
       return error(res, "Unauthorized", 401);
     }
     const { userId } = req.user;
-    const { movie_id } = req.params;
+    const { movieId } = req.params;
     const { review, rating } = req.body;
-    const tmdb_id = Number(movie_id);
+    const tmdb_id = Number(movieId);
     try {
       const result = await WatchlistService.updateWatchlist(
         userId,
@@ -70,8 +75,8 @@ export const WatchlistController = {
       return error(res, "Unauthorized", 401);
     }
     const { userId } = req.user;
-    const { movie_id } = req.params;
-    const tmdb_id = Number(movie_id);
+    const { movieId } = req.params;
+    const tmdb_id = Number(movieId);
     try {
       const result = await WatchlistService.deleteWatchlist(userId, tmdb_id);
       return success(res, result, "Watchlist deleted");
