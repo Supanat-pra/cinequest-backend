@@ -8,16 +8,22 @@ export const WatchlistController = {
       return error(res, "Unauthorized", 401);
     }
     const { userId } = req.user;
-    const { movieId } = req.params;
-    const { review, rating } = req.body;
+    const { mediaType, movieId } = req.params;
+    const { title, poster_path, review, rating } = req.body;
     if (typeof movieId !== "string") {
+      return error(res, "Path params is not string", 400);
+    }
+    if (mediaType !== "movie" && mediaType !== "tv") {
       return error(res, "Path params is not string", 400);
     }
     const movie_id = Number(movieId);
     try {
       const result = await WatchlistService.createWatchlist(
         userId,
+        mediaType,
         movie_id,
+        title,
+        poster_path,
         review ?? null,
         rating ?? null,
       );

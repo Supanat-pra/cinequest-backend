@@ -2,7 +2,10 @@ import { pool } from "../pool.js";
 
 export interface Watchlist {
   user_id: number;
+  media_type: "movie" | "tv";
   tmdb_id: number;
+  title: string;
+  poster_path: string;
   review: string | null;
   rating: number | null;
   created_at: Date;
@@ -11,20 +14,31 @@ export interface Watchlist {
 export const WatchlistRepository = {
   async create(
     userId: number,
+    mediaType: "movie" | "tv",
     tmdb_id: number,
+    title: string,
+    poster_path: string,
     review: string | null = null,
     rating: number | null = null,
   ): Promise<Watchlist | null> {
     const query =
-      "INSERT INTO watchlist (user_id, tmdb_id, review, rating) VALUES ($1, $2, $3, $4) RETURNING user_id, tmdb_id, review, rating, created_at";
-    const values = [userId, tmdb_id, review, rating];
+      "INSERT INTO watchlist (user_id, media_type, tmdb_id, title, poster_path, review, rating) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING user_id, media_type, tmdb_id, title, poster_path, review, rating, created_at";
+    const values = [
+      userId,
+      mediaType,
+      tmdb_id,
+      title,
+      poster_path,
+      review,
+      rating,
+    ];
     const result = await pool.query<Watchlist>(query, values);
     return result.rows[0] ?? null;
   },
 
   async get(userId: number): Promise<Watchlist[]> {
     const query =
-      "SELECT user_id, tmdb_id, review, rating, created_at FROM watchlist WHERE user_id=$1";
+      "SELECT user_id, media_type, tmdb_id, title, poster_path, review, rating, created_at FROM watchlist WHERE user_id=$1";
     const result = await pool.query<Watchlist>(query, [userId]);
     return result.rows ?? null;
   },

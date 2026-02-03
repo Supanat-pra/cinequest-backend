@@ -4,13 +4,19 @@ import type { Watchlist } from "../watchlist/watchlist.type.js";
 export const WatchlistService = {
   async createWatchlist(
     userId: number,
+    mediaType: "movie" | "tv",
     tmdb_id: number,
+    title: string,
+    poster_path: string,
     review: string,
     rating: number,
   ): Promise<Watchlist> {
     const result = await WatchlistRepository.create(
       userId,
+      mediaType,
       tmdb_id,
+      title,
+      poster_path,
       review,
       rating,
     );
@@ -19,6 +25,9 @@ export const WatchlistService = {
     }
     return {
       user_id: result.user_id,
+      media_type: result.media_type,
+      title: result.title,
+      poster_path: result.poster_path,
       tmdb_id: result.tmdb_id,
       review: result.review,
       rating: result.rating,
