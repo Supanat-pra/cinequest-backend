@@ -30,7 +30,7 @@ export const AuthController = {
         maxAge: 60 * 60 * 1000, // 1 hour
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
-        sameSite: "strict",
+        sameSite: "none",
       });
       return success(res, result.user, "User login");
     } catch (err) {
