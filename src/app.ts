@@ -7,7 +7,7 @@ import { limiter } from "./middlewares/ratelimiter.middleware.js";
 const app = express(); //app: Express type
 
 const corsOption: CorsOptions = {
-  origin: ["http://localhost:5173"],
+  origin: ["http://localhost:5173", "https://cinequest-frontend.vercel.app"],
   credentials: true,
 };
 app.use(limiter);
