@@ -1,6 +1,7 @@
 import type { Request, Response } from "express";
 import { success, error } from "../../utils/apiResponse.js";
 import { AuthService } from "./auth.service.js";
+import { env, isProd } from "../../config/env.js";
 
 export const AuthController = {
   async register(req: Request, res: Response) {
@@ -29,8 +30,8 @@ export const AuthController = {
       res.cookie("accessToken", result.accessToken, {
         maxAge: 60 * 60 * 1000, // 1 hour
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "none",
+        secure: isProd,
+        sameSite: isProd ? "none" : "lax",
       });
       return success(res, result.user, "User login");
     } catch (err) {
@@ -45,8 +46,9 @@ export const AuthController = {
     try {
       res.clearCookie("accessToken", {
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production", // HTTPS only(production)
-        sameSite: "strict",
+        secure: isProd, // HTTPS only(production)
+        sameSite: isProd ? "none" : "lax",
+        path: "/",
       });
       return success(res, "User logout");
     } catch {
