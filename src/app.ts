@@ -10,7 +10,7 @@ const corsOption: CorsOptions = {
   origin: ["http://localhost:5173", "https://cinequest-frontend.vercel.app"],
   credentials: true,
 };
-app.set("trust proxy", 1);
+app.set("trust proxy", 1); // make express trust Render proxy
 app.use(limiter);
 app.use(helmet());
 app.use(cors(corsOption));
